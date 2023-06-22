@@ -1,8 +1,65 @@
+import React, { useEffect, useState } from 'react';
+import axios from "axios";
+
 import { AddMember } from "./AddMember";
 import { MemberIcon } from "./MemberIcon";
-import { members } from "../testData";
 
-export const MemberBox:any = () => {
+
+interface Member {
+    first_name: string;
+    last_name: string;
+    birthday: string;
+    img: string;
+    address: object;
+    memberId: number;
+    email: string;
+    phone: string;
+    role: string;
+    dateOfEntry: string;
+    gender: string;
+    status: string;
+  }
+
+
+
+export const MemberBox:React.FC = () => {
+    const [members, setMembers] = useState<Member[]>([]);
+
+    useEffect(() => {
+        console.log('useEffect is running'); // Step 1
+    
+        const fetchData = async () => {
+            try {
+                const response = await axios.get('http://localhost:3000/members');
+                console.log('API response', response.data); // Step 2
+    
+                const mappedData = response.data.map((member: any) => ({
+                  first_name: member.first_name,
+                  last_name: member.last_name,
+                  birthday: member.birthday || null,
+                  img: member.image?.url || '' ,  
+                  address: member.address,  
+                  memberId: member.id,
+                  email: member.email,
+                  phone: member.phone || '',
+                  role: member.role.name,  
+                  dateOfEntry: member.date_of_entry || null,
+                  gender: member.gender || '',
+                  status: member.status  
+                }));
+    
+                setMembers(mappedData);
+                console.log('Mapped data', mappedData); // Step 2
+    
+            } catch (error) {
+                console.error('Error fetching data', error); // Step 3
+            }
+        };
+    
+        fetchData();
+    }, []);
+    
+    
     return(
         <div className="drop-shadow-md rounded-2xl bg-white w-full py-20 mb-20 border-[#F5F5F5]">
 
@@ -19,8 +76,22 @@ export const MemberBox:any = () => {
                 <AddMember />
                 {members.map((member) => (
                     
-                    <MemberIcon first_name={member.first_name} last_name={member.last_name} birthday={member.birthday} img={member.img} address={member.address} memberId={member.memberId} email={member.email} phone={member.phone} role={member.role} dateOfEntry={member.dateOfEntry} gender={member.gender} status={member.status} />   
-                ))}
+    <MemberIcon
+        key={member.memberId}
+        first_name={member.first_name}
+        last_name={member.last_name}
+        birthday={member.birthday}
+        img={member.img}
+        address={member.address}
+        memberId={member.memberId}
+        email={member.email}
+        phone={member.phone}
+        role={member.role}
+        dateOfEntry={member.dateOfEntry}
+        gender={member.gender}
+        status={member.status}
+    />
+))}
                  
             </div>
 

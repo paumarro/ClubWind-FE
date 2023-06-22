@@ -1,7 +1,8 @@
-import logo from '../imgs/logo.svg'
+import logo from '../imgs/CW_Logo.png'
 
 const HeaderIMG = () => {
-  return <img src={logo} alt='logo' />
+  return <img className='object-scale-down h-7 mt-3' src={logo} alt='logo' />
+  
 }
 
 export default HeaderIMG

@@ -32,20 +32,18 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
   return (
     <div
-      className={`fixed z-10 inset-0 overflow-y-auto ${
+      className={`fixed  z-10 inset-0 overflow-y-auto ${
         isOpen ? 'block' : 'hidden'
       }`}
     >
       <div
         className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0"
       >
-        <div
-          className="fixed inset-0 transition-opacity"
-          aria-hidden="true"
-          onClick={closeModal}
-        >
-          <div className="absolute inset-0 bg-white opacity-40 "></div>
-        </div>
+<div
+  className={`absolute inset-0 bg-white transition-opacity ease-in-out duration-1000 ${isOpen ? 'opacity-40' : 'opacity-0'}`}
+  aria-hidden="true"
+  onClick={closeModal}
+></div>
 
         <span
           className="hidden sm:inline-block sm:align-middle sm:h-screen"

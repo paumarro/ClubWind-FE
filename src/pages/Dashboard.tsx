@@ -1,8 +1,5 @@
-import { useEffect, useState } from 'react'
-import { AddEvent } from '../components/AddEvent'
+import { useState } from 'react'
 import { UberCarousel } from '../components/Carousel'
-import { Carousel } from '../components/Carousel2'
-import { EventBox } from '../components/EventBox'
 import { MemberBox } from '../components/MemberBox'
 import useFetchData from '../hooks/fetchData'
 
@@ -17,7 +14,7 @@ const Dashboard: any = () => {
 
   return (
     <div className="overflow-hidden">
-      <h1 className='text-3xl px-12 py-12 '>Hello, <strong className="font-semibold z-52">Benjamin Blümchen!</strong ></h1>
+      <h1 className='text-3xl px-12 py-16 '>Hello, <strong className="font-semibold z-52">Benjamin Blümchen!</strong ></h1>
       <h1 className='font-semibold text-2xl mx-12 my-10 '>Upcoming Events</h1>
         <div className="ml-12 mb-5 flex flex-row ">
           

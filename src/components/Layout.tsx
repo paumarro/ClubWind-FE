@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { Link, Outlet } from 'react-router-dom'
 import { DarkModeContext } from '../darkModeContext'
+import HeaderIMG from './HeaderIMG';
 
 const Layout = () => {
   const [darkMode, setDarkMode] = useState(false);
@@ -15,6 +16,7 @@ const Layout = () => {
         <DarkModeContext.Consumer>
           {({ darkMode, toggleDarkMode }) => (
             <>
+              
               <nav
                 className={
                   darkMode
@@ -22,24 +24,24 @@ const Layout = () => {
                     : ' top-0 z-50 bg-gray-100'
                 }
               >
-                <ul className='flex justify-between p-4'>
-                  <div className='absolute right-12 flex gap-4'>
-                    <li>
-                      <Link to='/'>Dashboard</Link>
-                    </li>
+               
+                <ul className='flex justify-between p-4 ml-8'>
+                <HeaderIMG />
+            
+                  <div className='absolute right-12 flex gap-4 mt-3'>
                     <li>
                       <Link to='/mitglieder'>Mitglieder</Link>
                     </li>
                     <li>
                       <Link to='/verein'>Verein</Link>
                     </li>
-                  </div>
                   <button
                     onClick={toggleDarkMode}
-                    className='p-1 rounded-md ml-12'
+                    className=''
                   >
                     {darkMode ? 'Make Light' : 'Make Dark'}
                   </button>
+                  </div>
                 </ul>
               </nav>
 

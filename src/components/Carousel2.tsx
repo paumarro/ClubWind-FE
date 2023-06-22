@@ -1,6 +1,4 @@
 import { useState } from "react";
-import { AddEvent } from "./AddEvent";
-import { EventBox } from "./EventBox";
 import { events }  from '../testData'
 
 export const Carousel = (props) => {
@@ -104,7 +102,6 @@ export const Carousel = (props) => {
       </div>
 
 
-  </>
-)
-
-    };
+    </>
+  )
+};

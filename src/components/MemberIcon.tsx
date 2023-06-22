@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState,} from 'react';
 import {Modal} from './Modal';
 import { CloseIcon } from './CloseIcon';
 
@@ -8,7 +8,7 @@ interface MemberIconProps {
     birthday: string;
     img: string;
     memberId: number | undefined;
-    address?: string | undefined;
+    address?: any | undefined;
     email?: string | undefined;
     phone?: string | undefined;
     role?: string | undefined;
@@ -49,7 +49,7 @@ interface MemberIconProps {
 
   return (
     <div
-      className="flex-col px-10 py-8 mx-2 my-2 rounded-3xl hover:bg-slate-100 duration-500 ease-in-out"
+      className="flex-col px-10 py-8 mx-2 my-2 rounded-3xl hover:bg-slate-100 duration-100 ease-in-out"
       onClick={openModal}
     >
       <img
@@ -82,35 +82,35 @@ interface MemberIconProps {
         </div>
         <div className="grid grid-cols-2 gap-y-5 gap-x-8 mb-8 ">
           <div>
-            <p className="font-semibold mb-2">Address</p>
-            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={address} />
+            <p className="font-semibold mb-2 ml-2">Address</p>
+            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={`${address?.street_name +', '+address?.street_number+', '+address?.post_code  }`} />
           </div>
           <div className='place-self-end'>
-            <p className="font-semibold mb-2">Email</p>
+            <p className="font-semibold mb-2 ml-2">Email</p>
             <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={email} />
           </div>
           <div>  
-            <p className="font-semibold mb-2">Phone</p>
+            <p className="font-semibold mb-2 ml-2">Phone</p>
             <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={phone} />
           </div>
           <div className='place-self-end'>
-            <p className="font-semibold mb-2">Role</p>
+            <p className="font-semibold mb-2 ml-2">Role</p>
             <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={role} />
           </div>
           <div>
-            <p className="font-semibold mb-2">Date of Entry</p>
+            <p className="font-semibold mb-2 ml-2">Date of Entry</p>
             <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={dateOfEntry} />
           </div>
           <div className='place-self-end'>
-            <p className="font-semibold mb-2">Gender</p>
-            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={gender} />
+            <p className="font-semibold mb-2 ml-2">Gender</p>
+            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={`${gender === 'M' ? 'Male' : 'Female'}`} />
           </div>
           <div>
-            <p className="font-semibold mb-2">Birthday</p>
+            <p className="font-semibold mb-2 ml-2">Birthday</p>
             <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={birthday} />
           </div>
           <div className='place-self-end'>  
-            <p className="font-semibold mb-2">Status</p>
+            <p className="font-semibold mb-2 ml-2">Status</p>
             <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={status} />
           </div>
         </div>
