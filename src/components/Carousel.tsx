@@ -10,13 +10,13 @@ export const UberCarousel = (props) => {
   const [currentIndex, setIndex] = useState(0);
 
   const handleNext = () => {
-    const isLastEvent = currentIndex === events.length - 3;
-    const newIndex = isLastEvent ? currentIndex : currentIndex + 1;
+    const isLastEvent = currentIndex + 4 >= events.length;
+    const newIndex = isLastEvent ? currentIndex : currentIndex + 4;
     setIndex(newIndex);
   };
   const handlePrevious = () => {
     const isFirstEvent = currentIndex === 0;
-    const newIndex = isFirstEvent ? currentIndex : currentIndex - 1;
+    const newIndex = isFirstEvent ? currentIndex : currentIndex - 4;
     setIndex(newIndex);
   };
   const handleStart = () => {

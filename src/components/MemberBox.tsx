@@ -26,13 +26,12 @@ export const MemberBox:React.FC = () => {
     const [members, setMembers] = useState<Member[]>([]);
 
     useEffect(() => {
-        console.log('useEffect is running'); // Step 1
+
     
         const fetchData = async () => {
             try {
                 const response = await axios.get('http://localhost:3000/members');
-                console.log('API response', response.data); // Step 2
-    
+
                 const mappedData = response.data.map((member: any) => ({
                   first_name: member.first_name,
                   last_name: member.last_name,
@@ -49,7 +48,6 @@ export const MemberBox:React.FC = () => {
                 }));
     
                 setMembers(mappedData);
-                console.log('Mapped data', mappedData); // Step 2
     
             } catch (error) {
                 console.error('Error fetching data', error); // Step 3
@@ -74,6 +72,7 @@ export const MemberBox:React.FC = () => {
             <div className="mx-2 my-2 grid gap-4 2xl:grid-cols-6 xl:grid-cols-6 lg:grid-cols-4  md:grid-cols-3 sm:grid-cols-3">
                 
                 <AddMember />
+                
                 {members.map((member) => (
                     
     <MemberIcon

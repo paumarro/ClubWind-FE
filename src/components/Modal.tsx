@@ -32,7 +32,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
 
   return (
     <div
-      className={`fixed  z-10 inset-0 overflow-y-auto ${
+      className={`fixed  z-10 inset-0 ${
         isOpen ? 'block' : 'hidden'
       }`}
     >
@@ -45,7 +45,7 @@ export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
   onClick={closeModal}
 ></div>
 
-        <span
+        <span   
           className="hidden sm:inline-block sm:align-middle sm:h-screen"
           aria-hidden="true"
         ></span>

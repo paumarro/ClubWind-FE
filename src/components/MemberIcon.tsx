@@ -1,6 +1,7 @@
 import React, { useState,} from 'react';
 import {Modal} from './Modal';
 import { CloseIcon } from './CloseIcon';
+import axios from 'axios';
 
 interface MemberIconProps {
     first_name: string;
@@ -34,6 +35,21 @@ interface MemberIconProps {
   }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
+  const [newInfo, setNewInfo] = useState({
+    first_name: '',
+    last_name: '',
+    birthday: '',
+    img: '',
+    address: { street_name: '', street_number: '', post_code: '' },
+    email: '',
+    phone: '',
+    role: '',
+    dateOfEntry: '',
+    gender: '',
+    status: ''
+  });
+
+
   const openModal = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
     setModalOpen(true);
@@ -46,6 +62,18 @@ interface MemberIconProps {
   const handleModalClick = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     event.stopPropagation();
   };
+
+
+  const handleSubmit = async () => {
+    try {
+      const response = await axios.put('http://localhost:3000/members', newInfo);
+      console.log(response.data);
+      closeModal();
+    } catch (error) {
+      console.error('Error updating member', error);
+    }
+  };
+
 
   return (
     <div
@@ -83,7 +111,7 @@ interface MemberIconProps {
         <div className="grid grid-cols-2 gap-y-5 gap-x-8 mb-8 ">
           <div>
             <p className="font-semibold mb-2 ml-2">Address</p>
-            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={`${address?.street_name +', '+address?.street_number+', '+address?.post_code  }`} />
+            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required	"} type="text" defaultValue={`${address?.street_name +', '+address?.street_number+', '+address?.post_code  }`} />
           </div>
           <div className='place-self-end'>
             <p className="font-semibold mb-2 ml-2">Email</p>
@@ -103,7 +131,7 @@ interface MemberIconProps {
           </div>
           <div className='place-self-end'>
             <p className="font-semibold mb-2 ml-2">Gender</p>
-            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={`${gender === 'M' ? 'Male' : 'Female'}`} />
+            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-readonly"} type="text" defaultValue={`${gender === 'M' ? 'Male' : 'Female'}`} />
           </div>
           <div>
             <p className="font-semibold mb-2 ml-2">Birthday</p>
@@ -111,8 +139,10 @@ interface MemberIconProps {
           </div>
           <div className='place-self-end'>  
             <p className="font-semibold mb-2 ml-2">Status</p>
-            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={status} />
+            <input className={"shadow bg-gray-200 appearance-none border rounded-xl mb-8 py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={status} />
           </div>
+          <button className='absolute bottom-6 right-11 px-4 py-1 bg-blue-100 border rounded-xl text-gray-600 hover:bg-blue-200' onClick={handleSubmit}>Update Member</button>
+
         </div>
 
       </div>
