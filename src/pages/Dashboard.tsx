@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { UberCarousel } from '../components/Carousel'
+import { Carousel } from '../components/Carousel'
 import { MemberBox } from '../components/MemberBox'
 import useFetchData from '../hooks/fetchData'
 
@@ -19,7 +19,7 @@ const Dashboard: any = () => {
         <div className="ml-12 mb-5 flex flex-row ">
           
           
-          <UberCarousel show="8"/>
+          <Carousel show="8"/>
 
 
         </div>

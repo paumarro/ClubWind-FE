@@ -3,7 +3,7 @@ import { AddEvent } from "./AddEvent";
 import { EventBox } from "./EventBox";
 import { events }  from '../testData'
 
-export const UberCarousel = (props) => {
+export const Carousel = (props) => {
 
   const {show} = props
   

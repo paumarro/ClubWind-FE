@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from "axios";
 
 import { AddMember } from "./AddMember";
-import { MemberIcon } from "./MemberIcon";
+import { Member } from "./Member";
 
 
 interface Member {
@@ -75,7 +75,7 @@ export const MemberBox:React.FC = () => {
                 
                 {members.map((member) => (
                     
-    <MemberIcon
+    <Member
         key={member.memberId}
         first_name={member.first_name}
         last_name={member.last_name}
