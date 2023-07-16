@@ -26,7 +26,7 @@ export const Carousel = (props) => {
 
   return (
     <>
-      <div className="w-full flex-col">
+      <div className="w-full flex-col mb-10">
         <div className="relative w-full flex">
           <div className="w-1/5 h-full">
             <div id="eventsCarousel" className="snap-normal flex relative">

@@ -13,7 +13,7 @@ export const EventBox:any = ({title, date, description}) => {
 
   
     return (
-      <div className="drop-shadow w-80 h-350 rounded-xl bg-white flex flex-col  justify-center border-[#F5F5F5] hover:drop-shadow-sm hover:scale-95 duration-100 ease-in-out">
+      <div className="drop-shadow w-80 h-350 rounded-xl bg-white flex flex-col justify-center border-none hover:drop-shadow-sm hover:scale-95 duration-100 ease-in-out">
         
         <img className="fixed top-0 w-lg rounded-t-xl " src="https://picsum.photos/id/11/400/200" alt={title} />
             <div className="mt-32 mx-7">

@@ -19,6 +19,7 @@ const Layout = () => {
               
               <nav
                 className={
+                  
                   darkMode
                     ? ' top-0 z-50 bg-slate-900 text-gray-300'
                     : ' top-0 z-50 bg-gray-100'

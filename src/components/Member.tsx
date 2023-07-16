@@ -2,18 +2,19 @@ import React, { useState,} from 'react';
 import {Modal} from './Modal';
 import { CloseIcon } from './CloseIcon';
 import axios from 'axios';
+import { DeleteMember } from './DeleteMember';
 
 interface MemberProps {
     first_name: string;
     last_name: string;
     birthday: string;
     img: string;
-    memberId: number | undefined;
+    memberId: number;
     address?: any | undefined;
     email?: string | undefined;
     phone?: string | undefined;
     role?: string | undefined;
-    dateOfEntry?: string | undefined;
+    date_of_entry?: string | undefined;
     gender?: string | undefined;
     status?: string | undefined;
   }
@@ -29,7 +30,7 @@ interface MemberProps {
     email,
     phone,
     role,
-    dateOfEntry,
+    date_of_entry,
     gender,
     status
   }) => {
@@ -44,10 +45,12 @@ interface MemberProps {
     email,
     phone,
     role,
-    dateOfEntry,
+    dateOfEntry: date_of_entry,
     gender,
     status
   });
+
+  const [changedInfo, setChangedInfo] = useState({});
 
 
   const openModal = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
@@ -63,9 +66,15 @@ interface MemberProps {
     event.stopPropagation();
   };
 
-  const updateInfo = () => {
-    setNewInfo(info)
-  }
+  const updateInfo = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setChangedInfo((prevChangedInfo) => ({
+      ...prevChangedInfo,
+      ...(info[name] !== value ? { [name]: value } : {})
+    }));
+  };
+  
+  const updatedData = { ...changedInfo };
 
 
   const handleSubmit = async () => {
@@ -86,10 +95,8 @@ interface MemberProps {
         return Promise.reject(error);
       });
 
-
-      const response = await axios.put( `http://localhost:3000/members/${memberId}`, info);
+      const response = await axios.put( `http://localhost:3000/members/${memberId}`, updatedData);
       console.log(response.data);
-      console.log(info);
       closeModal();
     } catch (error) {
       console.error('Error updating member', error);
@@ -101,7 +108,7 @@ interface MemberProps {
 
   return (
     <div
-      className="flex-col px-10 py-8 mx-2 my-2 rounded-3xl hover:bg-slate-100 duration-100 ease-in-out"
+      className="flex-col px-10 py-8 mx-2 my-2 rounded-xl hover:bg-slate-50 ease-in-out"
       onClick={openModal}
     >
       <img
@@ -136,7 +143,7 @@ interface MemberProps {
           <div>
             <p className="font-semibold mb-2 ml-2">Address</p>
             <input
-  className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required	"}
+  className={" bg-gray-100 appearance-none border-none rounded-xl py-2 pl-3 pr-16 text-slate-500 leading-tight focus:outline-none focus:shadow-outline aria-required	"}
   type="text"
   defaultValue={`${address?.street_name + ', ' + address?.street_number + ', ' + address?.post_code}`}
 
@@ -144,36 +151,38 @@ interface MemberProps {
           </div>
           <div className='place-self-end'>
             <p className="font-semibold mb-2 ml-2">Email</p>
-            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={email} />
+            <input className={" bg-gray-100 appearance-none border-none rounded-xl py-2 pl-3 pr-16 text-slate-500 leading-tight focus:outline-none focus:shadow-outline"} type="text" onChange={updateInfo} name='email' defaultValue={email} />
           </div>
           <div>  
             <p className="font-semibold mb-2 ml-2">Phone</p>
-            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={phone} />
+            <input className={" bg-gray-100 appearance-none border-none rounded-xl py-2 pl-3 pr-16 text-slate-500 leading-tight focus:outline-none focus:shadow-outline"} type="text" onChange={updateInfo} name='phone' defaultValue={phone} />
           </div>
           <div className='place-self-end'>
             <p className="font-semibold mb-2 ml-2">Role</p>
-            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={role} />
+            <input className={" bg-gray-100 appearance-none border-none rounded-xl py-2 pl-3 pr-16 text-slate-500 leading-tight focus:outline-none focus:shadow-outline"} type="text" onChange={updateInfo} name='role' defaultValue={role} />
           </div>
           <div>
             <p className="font-semibold mb-2 ml-2">Date of Entry</p>
-            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={dateOfEntry} />
+            <input className={" bg-gray-100 appearance-none border-none rounded-xl py-2 pl-3 pr-16 text-slate-500 leading-tight focus:outline-none focus:shadow-outline"} type="text" onChange={updateInfo} name='date_of_entry' disabled defaultValue={date_of_entry} />
           </div>
           <div className='place-self-end'>
             <p className="font-semibold mb-2 ml-2">Gender</p>
-            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-readonly"} type="text" defaultValue={`${gender === 'M' ? 'Male' : 'Female'}`} />
+            <input className={" bg-gray-100 appearance-none border-none rounded-xl py-2 pl-3 pr-16 text-slate-500 leading-tight focus:outline-none focus:shadow-outline aria-readonly"} type="text" onChange={updateInfo} name='gender' disabled defaultValue={`${gender === 'M' ? 'Male' : 'Female'}`} />
           </div>
           <div>
             <p className="font-semibold mb-2 ml-2">Birthday</p>
-            <input className={"shadow bg-gray-200 appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={birthday} />
+            <input className={" bg-gray-100 appearance-none border-none rounded-xl py-2 pl-3 pr-16 text-slate-500 leading-tight focus:outline-none focus:shadow-outline"} type="text" onChange={updateInfo} name='birthday' defaultValue={birthday} />
           </div>
           <div className='place-self-end'>  
             <p className="font-semibold mb-2 ml-2">Status</p>
-            <input className={"shadow bg-gray-200 appearance-none border rounded-xl mb-8 py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"} type="text" defaultValue={status} />
+            <input className={" bg-gray-100 appearance-none border-none rounded-xl mb-10 py-2 pl-3 pr-16 text-slate-500 leading-tight focus:outline-none focus:shadow-outline"} type="text" onChange={updateInfo} name='status' defaultValue={status} />
           </div>
-          <button className='absolute bottom-6 right-11 px-4 py-1 bg-blue-100 border rounded-xl text-gray-600 hover:bg-blue-200 ease-in-out duration-300' onClick={handleSubmit}>Update Member</button>
+          
+          <DeleteMember memberId={memberId} onDelete={closeModal}/>
+
+          <button className='absolute bottom-6 right-11 px-4 py-1 bg-blue-100 border-none rounded-xl text-gray-600 hover:bg-blue-200 ease-in-out duration-300' onClick={handleSubmit}>Update Member</button>
 
         </div>
-
       </div>
     </Modal>
     </div>

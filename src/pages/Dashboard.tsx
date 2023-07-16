@@ -14,7 +14,10 @@ const Dashboard: any = () => {
 
   return (
     <div className="overflow-hidden">
-      <h1 className='text-3xl px-12 py-16 '>Hello, <strong className="font-semibold z-52">Benjamin Blümchen!</strong ></h1>
+      <div className='grid'>
+        <h1 className='text-2xl px-12 py-4 my-8  flex '>Hello, <strong className="font-semibold z-52 ml-2">Benjamin Blümchen!</strong > <p className='absolute right-12 text-base m-1'>Log Out</p></h1>
+        
+      </div>
       <h1 className='font-semibold text-2xl mx-12 my-10 '>Upcoming Events</h1>
         <div className="ml-12 mb-5 flex flex-row ">
           
