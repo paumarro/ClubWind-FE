@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { Carousel } from '../components/Carousel'
-import { MemberBox } from '../components/MemberBox'
+import { EventSection } from '../components/EventSection'
+import { MemberSection } from '../components/MemberSection'
 import useFetchData from '../hooks/fetchData'
 
 
@@ -13,24 +13,19 @@ const Dashboard: any = () => {
 
 
   return (
-    <div className="overflow-hidden">
-      <div className='grid'>
-        <h1 className='text-2xl px-12 py-4 my-8  flex '>Hello, <strong className="font-semibold z-52 ml-2">Benjamin Blümchen!</strong > <p className='absolute right-12 text-base m-1'>Log Out</p></h1>
-        
-      </div>
-      <h1 className='font-semibold text-2xl mx-12 my-10 '>Upcoming Events</h1>
-        <div className="ml-12 mb-5 flex flex-row ">
+    <div className="overflow-hidden h-screen">
+      <h1 className='text-xl text-[#00000080] mx-12 mb-[-38px] mt-10 '>Events</h1>
+        <section className="ml-12 mb-5 flex flex-row ">
           
+          <EventSection show="8"/>
+
+        </section>
+        <h1 className='text-xl text-[#00000080] mx-12 mt-[38px] mb-[-34px]'>Members</h1>
+        <section className="mx-12 grid">
           
-          <Carousel show="8"/>
+          <MemberSection />
 
-
-        </div>
-      <h1 className='font-semibold text-2xl mx-12 mt-14 mb-10'>Members</h1>
-        <div className="mx-12 flex ">
-          <MemberBox />
-
-        </div>
+        </section>
 
     </div>
     
