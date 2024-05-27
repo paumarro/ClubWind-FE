@@ -16,7 +16,6 @@ interface MemberProps {
     role?: string | undefined;
     date_of_entry?: string | undefined;
     gender?: string | undefined;
-    status?: string | undefined;
   }
   
 
@@ -32,7 +31,7 @@ interface MemberProps {
     role,
     date_of_entry,
     gender,
-    status
+    
   }) => {
   const [modalOpen, setModalOpen] = useState(false);
 
@@ -47,7 +46,6 @@ interface MemberProps {
     role,
     dateOfEntry: date_of_entry,
     gender,
-    status
   });
 
   const [changedInfo, setChangedInfo] = useState({});
@@ -121,7 +119,7 @@ interface MemberProps {
       </p>
 
      
-    <Modal isOpen={modalOpen} onClose={closeModal}>
+    <Modal isOpen={modalOpen} onClose={closeModal} typeOfContent='Member'>
       <div className="m-5" onClick={handleModalClick}>
         <div className="flex">
           <img
@@ -162,7 +160,7 @@ interface MemberProps {
             <input className={" bg-gray-100 appearance-none border-none rounded-xl py-2 pl-3 pr-16 text-slate-500 leading-tight focus:outline-none focus:shadow-outline"} type="text" onChange={updateInfo} name='role' defaultValue={role} />
           </div>
           <div>
-            <p className="font-semibold mb-2 ml-2">Date of Entry</p>
+            <p className="font-semibold mb-2 ml-2">Zip</p>
             <input className={" bg-gray-100 appearance-none border-none rounded-xl py-2 pl-3 pr-16 text-slate-500 leading-tight focus:outline-none focus:shadow-outline"} type="text" onChange={updateInfo} name='date_of_entry' disabled defaultValue={date_of_entry} />
           </div>
           <div className='place-self-end'>
@@ -172,10 +170,6 @@ interface MemberProps {
           <div>
             <p className="font-semibold mb-2 ml-2">Birthday</p>
             <input className={" bg-gray-100 appearance-none border-none rounded-xl py-2 pl-3 pr-16 text-slate-500 leading-tight focus:outline-none focus:shadow-outline"} type="text" onChange={updateInfo} name='birthday' defaultValue={birthday} />
-          </div>
-          <div className='place-self-end'>  
-            <p className="font-semibold mb-2 ml-2">Status</p>
-            <input className={" bg-gray-100 appearance-none border-none rounded-xl mb-10 py-2 pl-3 pr-16 text-slate-500 leading-tight focus:outline-none focus:shadow-outline"} type="text" onChange={updateInfo} name='status' defaultValue={status} />
           </div>
           
           <DeleteMember memberId={memberId} onDelete={closeModal}/>

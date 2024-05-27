@@ -1,14 +1,12 @@
     import { Modal } from './Modal';
     import React, { useState } from 'react';
     import axios from "axios";
-    import { CloseIcon } from './CloseIcon';
     import addImage from "../imgs/noun-addImage.png";
-import { type } from 'os';
 
     export const AddMember = () => {
     const [modalOpen, setModalOpen] = useState(false);
     const [selectedFile, setSelectedFile] = useState< File | null >(null);
-    const [selectedBlob, setSelectedBlob] = useState<string | File | null>(null);
+    const [selectedBlob, setSelectedBlob] = useState<string | null>(null);
 
 
     const defaultProfile = 'https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg'
@@ -18,11 +16,12 @@ import { type } from 'os';
         last_name: '',
         birthday: '',
         image: { name: `Default Profile Picture`, type: 'image/jpg', url: defaultProfile, description: 'Default Profile Picture' },
-        address: { street_name: '', street_number: 0, post_code: '', 'country': '', 'floor': '', 'apartment': '' },
+        address: { street_name: '', street_number: 0, post_code: '', 'floor': '', 'apartment': '' },
+        country: '',
         email: '',
         phone: '',
         roleId: 1,
-        date_of_entry: '',
+        zip: '',
         gender: '',
         clubId: 1
       });
@@ -33,9 +32,9 @@ import { type } from 'os';
 
     const closeModal = () => {
         setModalOpen(false);
-    };
-/*
-    const handleBlur = (e) => {
+    }; 
+
+    const handleAddress = (e) => {
         const { name, value } = e.target;
     if (name === 'address') {
       const addressParts = value.split(',');
@@ -54,15 +53,27 @@ import { type } from 'os';
     street_name = addressParts
         } 
       };
-*/
-      const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = e.target;
+
+const handleChange = (e) => {
+    const { name, value } = e.target;
+    // Check if the change is for the address field
+    if (Object.hasOwn(newMember.address, name)) {
         setNewMember((prevMember) => ({
             ...prevMember,
-            [name]: value,
-          }));
-        
-      }
+            address: {
+                ...prevMember.address,
+                [name]: value,
+            },
+        }));
+    } else {
+      // Handle changes for fields not in the address object
+      setNewMember((prevMember) => ({
+        ...prevMember,
+        [name]: value,
+      }));
+    }
+  };
+  
       
     const handleFileChange = (e) => {
         const file = e.target.files[0];
@@ -74,7 +85,7 @@ import { type } from 'os';
         setSelectedBlob(url);
 
 
-      /*   setNewMember((prevMember) => ({
+        setNewMember((prevMember) => ({
           ...prevMember,
           image: {
             ...prevMember.image,
@@ -83,7 +94,7 @@ import { type } from 'os';
             name: `${prevMember.first_name}'s Profile Picture`,
             description: `${prevMember.first_name} ${prevMember.last_name}'s Profile Picture`
           }
-        })); */
+        })); 
       }; 
       
 
@@ -95,25 +106,27 @@ import { type } from 'os';
     const handleSubmit = async () => {
         try {
 
-      const formData: any = new FormData();
-      
-      if(selectedFile){
-      formData.append('image', selectedFile);
-    }
+            console.log(newMember)
 
-    Object.entries(newMember).forEach(([key, value]) => {
-    if (key !== 'image') {
-        formData.append(key, value);
-    }
-    });
+            const formData: any = new FormData();
+            
+            if(selectedFile){
+                formData.append('image', selectedFile);
+            }
 
-    const formDataObject = Object.fromEntries(formData.entries());
-    console.log(formDataObject);
-      
+            Object.entries(newMember).forEach(([key, value]) => {
+                if (key !== 'image') {
+                    formData.append(key, value);
+                }
+            });
 
-        const response = await axios.post('http://localhost:3000/members', formData);
-        console.log(response.data);
-        closeModal();
+            const formDataObject = Object.fromEntries(formData.entries());
+            console.log(formDataObject);
+
+            const response = await axios.post('http://localhost:3000/members', formData);
+            console.log(response.data);
+            closeModal();
+
         } catch (error) {
         console.error('Error adding member', error);
         }
@@ -121,24 +134,26 @@ import { type } from 'os';
 
 
     return (
-        <div className="flex flex-col justify-center items-center px-10 py-8 mx-2 my-2  rounded-xl">
-        <div className="w-24 h-24 border-2 border-gray-300 bg-white rounded-full p-8 flex items-center m-4 duration-1000 ease-in-out cursor-pointer hover:border-gray-400 duration-1000 ease-in-out" onClick={openModal}>
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" className="text-gray-300">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
-            </svg>
-        </div>
+        <div className="flex flex-col justify-center items-center px-8 py-8 mx-2 my-2  rounded-3xl ">
+            <div className="w-24 h-24 rounded-full p-8 flex items-center duration-1000 ease-in-out cursor-pointer hover:bg-gray-100 duration-700 ease-in-out" onClick={openModal}>
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" className="text-gray-400 hover:stroke-gray-500 duration-500 ease-in">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+                </svg>
+            </div>
 
-        <p className="text-lg font-semibold mt-1 text-center text-gray-300"  onClick={openModal}>Add Member</p>
+            {/* <p className="text-lg text-xs mt-1 text-center text-gray-300"  onClick={openModal}>Add Member</p> */}
 
-        <Modal isOpen={modalOpen} onClose={closeModal}>
+        <Modal isOpen={modalOpen} onClose={closeModal} handleSubmit={handleSubmit} typeOfContent='Member'>
+            
             <div className="px-4" onClick={handleModalClick}>
-            <div className="flex">
+            <form className="flex justify-between content-center">
                 <label
-                className='bg-gray-100 mt-5 mb-10 mr-10 w-32 h-32 rounded-full flex flex-col items-center justify-center cursor-pointer overflow-hidden'
+                className='bg-gray-100 mb-8 w-44 h-44 rounded-full flex flex-col items-center justify-center cursor-pointer overflow-hidden'
                 >
                 <img
                     src={selectedBlob || addImage}
                     className={selectedBlob ? 'object-cover rounded-full w-full h-full' : 'object-scale-down h-12 opacity-30'}
+                    alt='profile'
                 />
                 <input
                     type="file"
@@ -150,9 +165,9 @@ import { type } from 'os';
                 />
                 </label>
 
-                <div className='flex-col justify-center items-center'>
+                <div className='flex-col gap-2 flex-end items-center' >
                 <div className='place-self-end'>
-                    <p className="font-semibold mb-2 ml-2 text-gray-600">First Name</p>
+                    <p className="text-xs mb-2 ml-2 text-[#00000080]">First Name</p>
                     <input
                     className="appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:-outline"
                     type="text"
@@ -161,8 +176,8 @@ import { type } from 'os';
                     onChange={handleChange}
                     />
                 </div>
-                <div className='place-self-end mt-2'>
-                    <p className="font-semibold mb-2 ml-2 text-gray-600">Last Name</p>
+                <div className='place-self-end mt-6'>
+                    <p className="text-xs mb-2 ml-2 text-[#00000080]">Last Name(s)</p>
                     <input
                     className="appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
                     type="text"
@@ -172,96 +187,102 @@ import { type } from 'os';
                     />
                 </div>
                 </div>
-                <button className="absolute top-4 right-4 mt-4 px-4 py-2 flex-auto" onClick={closeModal}>
-                <CloseIcon />
-                </button>
+            </form>
             </div>
-            </div>
-            <div className="grid grid-cols-2 gap-y-5 gap-x-8 mb-8 px-4">
-            <div>
-                <p className="font-semibold mb-2 ml-2 text-gray-600">Address</p>
-                <input
-                className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
-                type="text"
-                name="address"
-                placeholder="street, number, postcode"
-                //value={newMember.address.street_name}
-                //onChange={handleChange}
-                //onBlur={handleBlur}
-                />
-            </div>
-            <div className='place-self-end'>
-                <p className="font-semibold mb-2 ml-2 text-gray-600">Email</p>
-                <input
-                className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
-                type="text"
-                name="email"
-                value={newMember.email}
-                onChange={handleChange}
-                />
-            </div>
-            <div>
-                <p className="font-semibold mb-2 ml-2 text-gray-600">Phone</p>
-                <input
-                className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
-                type="text"
-                name="phone"
-                value={newMember.phone}
-                onChange={handleChange}
-                />
-            </div>
-            <div className='place-self-end'>
-                <p className="font-semibold mb-2 ml-2 text-gray-600">Role</p>
-                <input
-                className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
-                type="text"
-                name="role"
-                value={newMember.roleId}
-                onChange={handleChange}
-                />
-            </div>
-            <div>
-                <p className="font-semibold mb-2 ml-2 text-gray-600">Date of Entry</p>
-                <input
-                className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
-                type="text"
-                name="date_of_entry"
-                value={newMember.date_of_entry}
-                onChange={handleChange}
-                />
-            </div>
-            <div className='place-self-end'>
-                <p className="font-semibold mb-2 ml-2 text-gray-600">Gender</p>
-                <input
-                className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
-                type="text"
-                name="gender"
-                value={newMember.gender}
-                onChange={handleChange}
-                />
-            </div>
-            <div>
-                <p className="font-semibold mb-2 ml-2 text-gray-600">Birthday</p>
-                <input
-                className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
-                type="text"
-                name="birthday"
-             
-                onChange={handleChange}
-                />
-            </div>
-            <div className='place-self-end'>
-                <p className="font-semibold mb-2 ml-2 text-gray-600">Status</p>
-                <input
-                className={"appearance-none border rounded-xl py-2 pl-3 mb-6 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
-                type="text"
-                name="status"
-            
-                onChange={handleChange}
-                />
-            </div>
-            <button className='absolute bottom-6 right-10 px-4 py-1 bg-blue-100 border-none rounded-xl text-gray-600 hover:bg-blue-200 ease-in-out duration-300' onClick={handleSubmit}>Add Member</button>
-            </div>
+            <form className="grid grid-cols-2 gap-y-5 gap-x-8 px-4">
+                <div>
+                    <p className="text-xs mb-2 ml-2 text-[#00000080]">Address</p>
+                    <input
+                    className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-[#00000080] text-md leading-tight focus:outline-none focus:shadow-outline aria-required"}
+                    type="text"
+                    name="address"
+                    placeholder="street, number"
+                    value={newMember.address.street_name}
+                    onChange={handleAddress}
+                    />
+                </div>
+                <div className='place-self-end'>
+                    <p className="text-xs mb-2 ml-2 text-[#00000080]">Country</p>
+                    <input
+                    className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
+                    type="text"
+                    name="country"
+                    value={newMember.country}
+                    onChange={handleChange}
+                    />
+                </div>
+                <div className='place-self-end'>
+                    <p className="text-xs mb-2 ml-2 text-[#00000080]">Email</p>
+                    <input
+                    className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
+                    type="text"
+                    name="email"
+                    value={newMember.email}
+                    onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <p className="text-xs mb-2 ml-2 text-[#00000080]">Phone</p>
+                    <input
+                    className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
+                    type="text"
+                    name="phone"
+                    value={newMember.phone}
+                    onChange={handleChange}
+                    />
+                </div>
+                <div className='place-self-end'>
+                    <p className="text-xs mb-2 ml-2 text-[#00000080]">Role</p>
+                    <input
+                    className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
+                    type="text"
+                    name="role"
+                    value={newMember.roleId}
+                    onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <p className="text-xs mb-2 ml-2 text-[#00000080]">Zip</p>
+                    <input
+                    className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
+                    type="text"
+                    name="zip"
+                    value={newMember.zip}
+                    onChange={handleChange}
+                    />
+                </div>
+                <div className='place-self-end'>
+                    <p className="text-xs mb-2 ml-2 text-[#00000080]">Gender</p>
+                    <input
+                    className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
+                    type="text"
+                    name="gender"
+                    value={newMember.gender}
+                    onChange={handleChange}
+                    />
+                </div>
+                <div>
+                    <p className="text-xs mb-2 ml-2 text-[#00000080]">Birthday</p>
+                    <input
+                    className={"appearance-none border rounded-xl py-2 pl-3 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
+                    type="text"
+                    name="birthday"
+                
+                    onChange={handleChange}
+                    />
+                </div>
+                {/* <div className='place-self-end'>
+                    <p className="text-xs mb-2 ml-2 text-[#00000080]">Status</p>
+                    <input
+                    className={"appearance-none border rounded-xl py-2 pl-3 mb-6 pr-16 text-gray-700 leading-tight focus:outline-none focus:shadow-outline aria-required"}
+                    type="text"
+                    name="status"
+                
+                    onChange={handleChange}
+                    />
+                </div> */}
+
+            </form>
         </Modal>
         </div>
         );
