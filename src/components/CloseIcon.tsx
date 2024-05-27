@@ -4,7 +4,7 @@ export const CloseIcon = () => (
     <svg
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 100 125"
-      className="h-8 w-8" // Adjust size as needed
+      className="h-10 w-10 p-2 pt-3 rounded-3xl bg-gray-200 hover:bg-gray-300 duration-300" 
     >
       <g>
         <path

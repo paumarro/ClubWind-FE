@@ -1,57 +1,54 @@
-import React, { useEffect, useRef } from 'react';
+import React, { MouseEventHandler, useEffect } from 'react';
+import { CloseIcon } from './CloseIcon';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
+  handleSubmit?:  MouseEventHandler<HTMLButtonElement>;
   children: React.ReactNode;
-}
+  typeOfContent: string;
+};
 
-export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, children }) => {
-
-
-  const closeModal = () => {
-    onClose();
-  };
+export const Modal: React.FC<ModalProps> = ({ isOpen, onClose, handleSubmit, children, typeOfContent }) => {
 
   const handleEscape = (event: KeyboardEvent) => {
     if (event.key === 'Escape') {
-      closeModal();
+      onClose();
     }
   };
+
+  const closeModal = () => {
+    onClose();
+    document.body.style.overflow = 'auto';
+  }; 
 
   useEffect(() => {
     if (isOpen) {
       document.addEventListener('keydown', handleEscape);
-
+      document.body.style.overflow = 'hidden';
     }
 
     return () => {
       document.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = 'auto';
     };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isOpen]);
 
   return (
-    <div
-      className={`fixed  z-10 inset-0 ${
-        isOpen ? 'block' : 'hidden'
-      }`}
-    >
-      <div
-        className="flex items-center justify-center min-h-screen px-4 pt-4 pb-20 text-center sm:block sm:p-0"
-      >
-<div
-  className={`absolute inset-0 bg-white rounded-xl transition-opacity ease-in-out duration-1000 ${isOpen ? 'opacity-40' : 'opacity-0'}`}
-  aria-hidden="true"
-  onClick={closeModal}
-></div>
+    <div className={`fixed top-0 left-0 flex justify-center items-center w-full h-full backdrop-blur-sm z-99 
+    ${isOpen ? 'block' : 'hidden'}`} >
 
-        <span   
-          className="hidden sm:inline-block sm:align-middle sm:h-screen"
-          aria-hidden="true"
-        ></span>
-
-          <div className="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
-          <div className="px-4 py-4 sm:p-6">{children}</div>
+      <div className="flex justify-center items-center">
+        <div className="bg-white rounded-xl text-left overflow-hidden shadow-md">
+          <button className="mt-4 mr-2 px-4 py-2 float-right" onClick={closeModal}>
+            <CloseIcon />
+          </button>
+          <div className="mt-16 px-4 py-4 sm:p-6">{children}</div>
+            <button 
+                className='float-right h-12 w-full px-4 text-semibold text-[#00000080] py-1 ml-8 mt-0 bg-gray-200 border-none hover:bg-blue-500 hover:text-white ease-in-out duration-300' 
+                onClick={handleSubmit}>Add {typeOfContent}
+            </button>
         </div>
       </div>
     </div>
