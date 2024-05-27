@@ -1,33 +1,39 @@
 export const events = [
     {
-      title: "Chess Match",
+      title: "Camping",
       date: "Sunday, 16 March",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+      img: "https://picsum.photos/id/269/400/200"
     },
     {
-      title: "Chess Practice",
+      title: "Field Visit",
       date: "Sunday, 17 March",
       description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+      img: "https://picsum.photos/id/107/400/200"
     },
     {
         title: "Chess Exposition",
         date: "Sunday, 23 March",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+        img: "https://picsum.photos/id/192/400/200"
       },
     {
-        title: "Chess Practice",
+        title: "Lunch at Vellago",
         date: "Sunday, 25 March",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+        img: "https://picsum.photos/id/999/400/200"
     },
     {
-        title: "Chess Match",
+        title: "Adventure at the forest",
         date: "Sunday, 1 April",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+        img: "https://picsum.photos/id/518/400/200"
     },
     {
-        title: "Chess Practice",
+        title: "Ski day",
         date: "Sunday, 7 April",
         description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. ",
+        img: "https://picsum.photos/id/1000/400/200"
     }
   ];
 
